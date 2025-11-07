@@ -50,11 +50,15 @@ button {
 }
 
 .sidebar__button--theme {
-    background-image: url(/images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png);
+    /* background-image: url(/images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png); */
+    /* background-image: url(./images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png); */
+    background-image: url(../images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png);
 }
 
 .sidebar__button--music {
-    background-image: url(/images/music.png);
+    /* background-image: url(/images/music.png); */
+    /* background-image: url(./images/settings__button.png); */
+    background-image: url(../images/music.png);
 }
 
 .container {
@@ -81,7 +85,8 @@ button {
 }
 
 .logo__icon {
-    background-image: url(/images/corgi__icon.png);
+    /* background-image: url(/images/corgi__icon.png); */
+    background-image: url(../images/corgi__icon.png);
     width: 80px;
     height: 80px;
     background-size: contain;
@@ -182,7 +187,8 @@ button {
 }
 
 .timer__button--settings {
-    background-image: url(/images/settings__button.png);
+    /* background-image: url(/images/settings__button.png); */
+    background-image: url(../images/settings__button.png);
     width: 30px;
     height: 50px;
 }
@@ -192,19 +198,22 @@ button {
 } */
 
 .timer__button--start {
-    background-image: url(/images/play__button.png);
+    /* background-image: url(/images/play__button.png); */
+    background-image: url(../images/play__button.png);
     width: 70px;
     height: 70px;
 }
 
 .timer__button--pause {
-    background-image: url(/images/pause__button.png);
+    /* background-image: url(/images/pause__button.png); */
+    background-image: url(../images/pause__button.png);
     width: 70px;
     height: 70px;
 }
 
 .timer__button--reset {
-    background-image: url(/images/reset__button.png);
+    /* background-image: url(/images/reset__button.png); */
+    background-image: url(../images/reset__button.png);
     width: 70px;
     height: 70px;
 }
@@ -235,7 +244,8 @@ button {
 .stats__calendar-button {
     width: 30px;
     height: 30px;
-    background-image: url(/images/calendar__button.png);
+    /* background-image: url(/images/calendar__button.png); */
+    background-image: url(../images/calendar__button.png);
 }
 
 .stats-grid {
