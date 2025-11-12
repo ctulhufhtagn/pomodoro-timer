@@ -392,8 +392,8 @@ const soundPromise = new Promise((resolve, reject) => {
         return;
     }
 
-    const workMainSound = new Audio('/sounds/victoryFanfare.mp3');
-    const breakMainSound = new Audio('/sounds/breakMainSound.wav');
+    const workMainSound = new Audio('./sounds/victoryFanfare.mp3');
+    const breakMainSound = new Audio('./sounds/breakMainSound.wav');
 
     resolve({
         work: workMainSound,
@@ -414,8 +414,8 @@ async function loadAllSounds() {
         console.log(melodies);
 
     } catch (error) {
-        const workSecondSound = new Audio('/sounds/workSecondSound.wav');
-        const breakSecondSound = new Audio('/sounds/breakSecondSound.wav');
+        const workSecondSound = new Audio('./sounds/workSecondSound.wav');
+        const breakSecondSound = new Audio('./sounds/breakSecondSound.wav');
 
         melodies.workSecondSound = workSecondSound;
         melodies.breakSecondSound = breakSecondSound;
