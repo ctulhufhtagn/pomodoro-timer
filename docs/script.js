@@ -284,6 +284,7 @@ function startTimer() {
     intervalId = setInterval(() => {
 
         if (timeLeft <= 0) {
+            playSound();
             clearInterval(intervalId);
             console.log("Таймер завершён!");
             isRunning = false;
@@ -375,3 +376,73 @@ function updateButtonState(state) {
 }
 
 
+
+/* modules/sound-loader.js */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+})
+
+let melodies = {};
+
+const soundPromise = new Promise((resolve, reject) => {
+
+    if (typeof Audio === 'undefined') {
+        reject(error('Не удалось загрузить файлы'));
+        return;
+    }
+
+    const workMainSound = new Audio('/sounds/victoryFanfare.mp3');
+    const breakMainSound = new Audio('/sounds/breakMainSound.wav');
+
+    resolve({
+        work: workMainSound,
+        break: breakMainSound,
+    });
+
+});
+
+async function loadAllSounds() {
+
+    try {
+        const mainSounds = await soundPromise;
+        /* console.log(mainSounds); */
+
+        melodies.workMainSound = mainSounds.work;
+        melodies.breakMainSound = mainSounds.break;
+
+        console.log(melodies);
+
+    } catch (error) {
+        const workSecondSound = new Audio('/sounds/workSecondSound.wav');
+        const breakSecondSound = new Audio('/sounds/breakSecondSound.wav');
+
+        melodies.workSecondSound = workSecondSound;
+        melodies.breakSecondSound = breakSecondSound;
+
+        console.log(melodies);
+    }
+}
+
+loadAllSounds();
+
+function playSound() {
+
+    const song = currentMode = 'work'
+        ? melodies.workMainSound
+        : melodies.breakMainSound;
+
+    if (!song) {
+        console.log('Звук не найден');
+        return;
+    }
+
+    song.currentTime = 0;
+    song.play();
+
+    setTimeout(() => {
+        song.pause();
+    }, 4250)
+
+    console.log(song);
+}
