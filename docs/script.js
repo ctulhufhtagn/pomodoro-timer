@@ -1,3 +1,7 @@
+import { loadAllSounds } from './modules/sound-loader.js'
+import { playSound } from './modules/sound-player.js'
+
+
 /* Переменные хедера таймера*/
 const $timerModeSelector = document.querySelector('.timer__mode-selector');
 let $timerModeButtonWork = document.querySelector('.timer__mode-button--work');
@@ -16,8 +20,6 @@ let $pauseButton = document.querySelector('.timer__button--pause');
 let $resetButton = document.querySelector('.timer__button--reset');
 let $timerControls = document.querySelector('.timer__controls');
 
-/* $startButton.addEventListener('click', startTimer); */
-
 /* Состояния таймера */
 let currentMode = "work";
 let hasBeenStarted = false;
@@ -26,7 +28,7 @@ let breakTime = 300;
 let hasCustomTime = false; /* меняли ли время */
 let customTime = 0;        /* какое время */
 
-intervalId = null /* ID таймера для остановки  */
+let intervalId = null /* ID таймера для остановки  */
 
 /* Обработчики событий */
 
@@ -284,7 +286,7 @@ function startTimer() {
     intervalId = setInterval(() => {
 
         if (timeLeft <= 0) {
-            playSound();
+            playSound(currentMode);
             clearInterval(intervalId);
             console.log("Таймер завершён!");
             isRunning = false;
@@ -380,69 +382,6 @@ function updateButtonState(state) {
 /* modules/sound-loader.js */
 
 document.addEventListener('DOMContentLoaded', function () {
-
+    loadAllSounds();
 })
 
-let melodies = {};
-
-const soundPromise = new Promise((resolve, reject) => {
-
-    if (typeof Audio === 'undefined') {
-        reject(error('Не удалось загрузить файлы'));
-        return;
-    }
-
-    const workMainSound = new Audio('./sounds/victoryFanfare.mp3');
-    const breakMainSound = new Audio('./sounds/breakMainSound.wav');
-
-    resolve({
-        work: workMainSound,
-        break: breakMainSound,
-    });
-
-});
-
-async function loadAllSounds() {
-
-    try {
-        const mainSounds = await soundPromise;
-        /* console.log(mainSounds); */
-
-        melodies.workMainSound = mainSounds.work;
-        melodies.breakMainSound = mainSounds.break;
-
-        console.log(melodies);
-
-    } catch (error) {
-        const workSecondSound = new Audio('./sounds/workSecondSound.wav');
-        const breakSecondSound = new Audio('./sounds/breakSecondSound.wav');
-
-        melodies.workSecondSound = workSecondSound;
-        melodies.breakSecondSound = breakSecondSound;
-
-        console.log(melodies);
-    }
-}
-
-loadAllSounds();
-
-function playSound() {
-
-    const song = currentMode = 'work'
-        ? melodies.workMainSound
-        : melodies.breakMainSound;
-
-    if (!song) {
-        console.log('Звук не найден');
-        return;
-    }
-
-    song.currentTime = 0;
-    song.play();
-
-    setTimeout(() => {
-        song.pause();
-    }, 4250)
-
-    console.log(song);
-}
