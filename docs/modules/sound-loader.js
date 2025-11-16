@@ -42,4 +42,3 @@ export async function loadAllSounds() {
 export function getSound(mode) {
     return melodies[mode === 'work' ? 'workMainSound' : 'breakMainSound'];
 }
-

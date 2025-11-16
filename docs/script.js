@@ -1,34 +1,35 @@
+/* Работа таймера */
+import { startTimer, pauseTimer, resetTimer, timer } from './modules/timer-core.js'
+
+/* Состояния таймера */
+import { timerState } from './modules/state-manager.js';
+
+/* Грузим и воспроизводим звуки */
 import { loadAllSounds } from './modules/sound-loader.js'
 import { playSound } from './modules/sound-player.js'
 
+import {
+    /* Переменные хедера таймера */
+    $timerModeSelector,
+    $timerModeButtonWork,
+    $timerModeButtonBreak,
 
-/* Переменные хедера таймера*/
-const $timerModeSelector = document.querySelector('.timer__mode-selector');
-let $timerModeButtonWork = document.querySelector('.timer__mode-button--work');
-let $timerModeButtonBreak = document.querySelector('.timer__mode-button--break');
+    /* части дисплея таймера */
+    $timerDisplay,
+    $timerHours,
+    $timerMinutes,
+    $timerSeconds,
 
-/* части дисплея таймера */
-let $timerDisplay = document.querySelector('.timer__display');
+    /* Кнопки таймера */
+    $startButton,
+    $pauseButton,
+    $resetButton,
+    $timerControls,
 
-let $timerHours = document.querySelector('[data-unit="hours"]');
-let $timerMinutes = document.querySelector('[data-unit="minutes"]');
-let $timerSeconds = document.querySelector('[data-unit="seconds"]');
-
-/* Кнопки таймера */
-let $startButton = document.querySelector('.timer__button--start');
-let $pauseButton = document.querySelector('.timer__button--pause');
-let $resetButton = document.querySelector('.timer__button--reset');
-let $timerControls = document.querySelector('.timer__controls');
-
-/* Состояния таймера */
-let currentMode = "work";
-let hasBeenStarted = false;
-let workTime = 1500;
-let breakTime = 300;
-let hasCustomTime = false; /* меняли ли время */
-let customTime = 0;        /* какое время */
-
-let intervalId = null /* ID таймера для остановки  */
+    /* функции отображения и изменения кнопок*/
+    displayTimer,
+    updateButtonState
+} from './modules/dom-manager.js'
 
 /* Обработчики событий */
 
@@ -63,7 +64,7 @@ $timerModeSelector.addEventListener('click', (event) => {
 
     if (clickedModule.classList.contains('timer__mode-button--work')) {
 
-        if (isRunning && currentMode === "break") {
+        if (timer.isRunning && timerState.currentMode === "break") {
             resetTimer();
         }
 
@@ -74,13 +75,13 @@ $timerModeSelector.addEventListener('click', (event) => {
         $timerMinutes.value = '25';
         $timerSeconds.value = '00';
 
-        currentMode = "work";
-        timeLeft = workTime;
+        timerState.currentMode = "work";
+        timer.timeLeft = timerState.workTime;
     }
 
     else if (clickedModule.classList.contains('timer__mode-button--break')) {
 
-        if (isRunning && currentMode === "work") {
+        if (timer.isRunning && timerState.currentMode === "work") {
             resetTimer();
         }
 
@@ -91,16 +92,10 @@ $timerModeSelector.addEventListener('click', (event) => {
         $timerMinutes.value = '05';
         $timerSeconds.value = '00';
 
-        currentMode = "break";
-        timeLeft = breakTime;
+        timerState.currentMode = "break";
+        timer.timeLeft = timerState.breakTime;
     }
 });
-
-/* переменные для сохранения изменённых значений */
-
-let currentHours = 0;
-let currentMinutes = 0;
-let currentSeconds = 0;
 
 /* слушатель на $timerDisplay, для клавиш down, up, и энтер */
 $timerDisplay.addEventListener('input', function (event) {
@@ -150,7 +145,7 @@ $timerDisplay.addEventListener('keydown', function (event) {
 
             let value = +clickedElement.value || 0;
 
-            hasCustomTime = true;
+            timerState.hasCustomTime = true;
 
             /* получаем дата-юнит элементов  */
             const unit = clickedElement.dataset.unit;
@@ -161,15 +156,15 @@ $timerDisplay.addEventListener('keydown', function (event) {
                 clickedElement.value = value.toString().padStart(2, '0');
 
                 if (unit === 'hours') {
-                    currentHours = value;
+                    timerState.currentHours = value;
                 }
 
                 else if (unit === 'minutes') {
-                    currentMinutes = value;
+                    timerState.currentMinutes = value;
                 }
 
                 else if (unit === 'seconds') {
-                    currentSeconds = value;
+                    timerState.currentSeconds = value;
                 }
 
             }
@@ -182,7 +177,7 @@ $timerDisplay.addEventListener('keydown', function (event) {
 
             let value = +clickedElement.value || 0;
 
-            hasCustomTime = true;
+            timerState.hasCustomTime = true;
 
             /* получаем дата-юнит элементов  */
             const unit = clickedElement.dataset.unit;
@@ -197,15 +192,15 @@ $timerDisplay.addEventListener('keydown', function (event) {
                 clickedElement.value = value.toString().padStart(2, '0');
 
                 if (unit === 'hours') {
-                    currentHours = value;
+                    timerState.currentHours = value;
                 }
 
                 else if (unit === 'minutes') {
-                    currentMinutes = value;
+                    timerState.currentMinutes = value;
                 }
 
                 else if (unit === 'seconds') {
-                    currentSeconds = value;
+                    timerState.currentSeconds = value;
                 }
 
             }
@@ -215,173 +210,25 @@ $timerDisplay.addEventListener('keydown', function (event) {
 
         case 'Enter': {
 
-            hasCustomTime = true;
+            timerState.hasCustomTime = true;
 
             event.stopPropagation();
 
             event.preventDefault();
 
-            startTimer(currentHours, currentMinutes, currentSeconds);
+            /* timer.timeLeft = timerState.currentHours * 3600 +
+                timerState.currentMinutes * 60 +
+                timerState.currentSeconds */
+
+            startTimer();
 
             break;
         }
     }
 });
 
-/* функция работы таймера */
-
-let timeLeft = 0;
-let isRunning = false;
-/* let currentTime = 0; */
-
-function displayTimer() {
-
-    let hours = Math.floor(timeLeft / 3600);
-    let minutes = Math.floor((timeLeft % 3600) / 60);
-    let seconds = Math.floor(timeLeft % 60);
-    console.log(timeLeft);
-
-    $timerHours.value = hours.toString().padStart(2, '0');
-    $timerMinutes.value = minutes.toString().padStart(2, '0');
-    $timerSeconds.value = seconds.toString().padStart(2, '0');
-
-    console.log(`timeLeft: ${timeLeft}, minutes: ${minutes}, calc: ${timeLeft}/60`);
-}
-
-function startTimer() {
-
-    if (isRunning) {
-        return;
-    }
-
-    console.log('раннинг до того как меняется в ф-ии:', isRunning);
-
-    isRunning = true;
-
-    updateButtonState('idle');
-
-    if (!hasBeenStarted) {
-
-        if (hasCustomTime) {
-
-            timeLeft = currentHours * 3600 + currentMinutes * 60 + currentSeconds;
-
-            console.log('в кастоме', isRunning);
-
-        } else {
-            /* === условие ? если истинно : если ложно */
-            timeLeft = currentMode === "work" ? workTime : breakTime;
-        }
-
-        hasBeenStarted = true;
-
-        console.log(hasBeenStarted);
-
-    }
-
-    console.log('timeleft = ' + timeLeft);
-
-    displayTimer();
-
-    intervalId = setInterval(() => {
-
-        if (timeLeft <= 0) {
-            playSound(currentMode);
-            clearInterval(intervalId);
-            console.log("Таймер завершён!");
-            isRunning = false;
-            return;
-        }
-
-        timeLeft--;
-
-        displayTimer();
-
-        console.log(timeLeft);
-
-    }, 1000);
-
-}
-
-function pauseTimer() {
-
-    console.log('Pause called, intervalId:', intervalId);
-
-    /* останавливаем таймер и сохраняем его время, меняем состояние */
-    clearInterval(intervalId);
-
-    isRunning = false;
-    intervalId = null;
-
-    updateButtonState('pause');
-
-}
-
-function resetTimer() {
-
-    clearInterval(intervalId);
-
-    isRunning = false;
-    hasBeenStarted = false;
-
-    timeLeft = currentMode === "work" ? workTime : breakTime;
-
-    displayTimer();
-    updateButtonState('reset');
-
-    console.log('timeleft = ' + timeLeft);
-}
-
-function updateButtonState(state) {
-
-    switch (state) {
-
-        case 'idle':
-            $startButton.classList.remove('timer__button--active');
-            $pauseButton.classList.add('timer__button--active');
-            $resetButton.classList.add('timer__button--active');
-
-            $startButton.setAttribute('aria-hidden', 'true');
-            $pauseButton.setAttribute('aria-hidden', 'false');
-            $resetButton.setAttribute('aria-hidden', 'false');
-
-            $pauseButton.focus();
-
-            break;
-
-        case 'pause':
-            $pauseButton.classList.remove('timer__button--active');
-            $startButton.classList.add('timer__button--active');
-
-            $pauseButton.setAttribute('aria-hidden', 'true');
-            $startButton.setAttribute('aria-hidden', 'false');
-
-            $startButton.focus();
-
-            break;
-
-        case 'reset':
-            $startButton.classList.add('timer__button--active');
-            $pauseButton.classList.remove('timer__button--active');
-            $resetButton.classList.remove('timer__button--active');
-
-            $startButton.setAttribute('aria-hidden', 'false');
-            $pauseButton.setAttribute('aria-hidden', 'true');
-            $resetButton.setAttribute('aria-hidden', 'true');
-
-            $startButton.focus();
-
-            break;
-
-    }
-    console.log(state);
-}
-
-
-
-/* modules/sound-loader.js */
+/* Загружаем звуки, после dom дерева */
 
 document.addEventListener('DOMContentLoaded', function () {
     loadAllSounds();
 })
-

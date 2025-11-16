@@ -52,26 +52,38 @@
                     </div>
                 </div>
 
-
-
                 <div class="stats">
                     <div class="stats__header">
                         <h2 class="stats__title">Статистика за день</h2>
                         <button class="stats__calendar-button"></button>
                     </div>
-                    <div class="stats-grid">
-                        <div class="stats-grid__label">Завершено сессий</div>
-                        <div class="stats-grid__value">-</div>
 
-                        <div class="stats-grid__label">Общее время</div>
-                        <div class="stats-grid__value">-</div>
+                    <div class="stats-grid">
+
+                        <div class="stats-grid__label">Завершено сессий</div>
+                        <div class="stats-grid__value">
+                            <span id="sessions-count">-</span>
+                            <button class="stats-edit-button"></button>
+                        </div>
+
+                        <div class="stats-grid__label">Общее время работы</div>
+                        <div class="stats-grid__value">
+                            <span id="total-time">-</span>
+                            <button class="stats-edit-button"></button>
+                        </div>
 
                         <div class="stats-grid__label">Средняя сессия</div>
-                        <div class="stats-grid__value">-</div>
+                        <div class="stats-grid__value">
+                            <span id="average-session">-</span>
+                        </div>
 
                         <div class="stats-grid__label">Соотношение работа/отдых</div>
-                        <div class="stats-grid__value">-</div>
+                        <div class="stats-grid__value">
+                            <span id="work-break-ratio">-</span>
+                        </div>
+
                     </div>
+
                 </div>
             </main>
         </div>

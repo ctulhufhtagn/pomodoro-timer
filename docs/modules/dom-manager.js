@@ -17,6 +17,12 @@ export let $pauseButton = document.querySelector('.timer__button--pause');
 export let $resetButton = document.querySelector('.timer__button--reset');
 export let $timerControls = document.querySelector('.timer__controls');
 
+/* Статистика */
+export const $sessionsCount = document.querySelector('.sessions-count');
+export const $totalTime = document.querySelector('.sessions-count');
+export const $averageSession = document.querySelector('.average-session');
+export const $workBreakRatio = document.querySelector('.work-break-ratio');
+
 
 export function displayTimer() {
 
