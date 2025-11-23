@@ -26,9 +26,9 @@ import {
     $resetButton,
     $timerControls,
 
-    /* функции отображения и изменения кнопок*/
-    displayTimer,
-    updateButtonState
+    /* функция отображения и изменения кнопок*/
+    updateButtonState,
+
 } from './modules/dom-manager.js'
 
 /* Обработчики событий */

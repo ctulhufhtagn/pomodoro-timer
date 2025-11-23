@@ -12,4 +12,7 @@ export const timerState = {
     currentHours: 0,
     currentMinutes: 0,
     currentSeconds: 0,
+
+    /* переменная для сохранения длительности сессии */
+    sessionDuration: 0,
 };

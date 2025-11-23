@@ -270,6 +270,10 @@ button {
     justify-content: space-between;
 }
 
+.stat-value {
+    font-size: 17px;
+}
+
 .stats-edit-button {
     width: 30px;
     height: 30px;

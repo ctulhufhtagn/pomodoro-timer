@@ -1,4 +1,5 @@
 import { timer } from './timer-core.js';
+import { formatTime } from './timer-statistics.js';
 
 /* Переменные хедера таймера*/
 export const $timerModeSelector = document.querySelector('.timer__mode-selector');
@@ -18,25 +19,9 @@ export let $resetButton = document.querySelector('.timer__button--reset');
 export let $timerControls = document.querySelector('.timer__controls');
 
 /* Статистика */
-export const $sessionsCount = document.querySelector('.sessions-count');
-export const $totalTime = document.querySelector('.sessions-count');
-export const $averageSession = document.querySelector('.average-session');
-export const $workBreakRatio = document.querySelector('.work-break-ratio');
-
-
-export function displayTimer() {
-
-    let hours = Math.floor(timer.timeLeft / 3600);
-    let minutes = Math.floor((timer.timeLeft % 3600) / 60);
-    let seconds = Math.floor(timer.timeLeft % 60);
-    console.log(timer.timeLeft);
-
-    $timerHours.value = hours.toString().padStart(2, '0');
-    $timerMinutes.value = minutes.toString().padStart(2, '0');
-    $timerSeconds.value = seconds.toString().padStart(2, '0');
-
-    console.log(`timeLeft: ${timer.timeLeft}, minutes: ${minutes}, calc: ${timer.timeLeft}/60`);
-}
+const $sessionsCount = document.querySelector('#sessions-count');
+const $totalTime = document.querySelector('#total-time');
+const $averageSession = document.querySelector('#average-session');
 
 export function updateButtonState(state) {
 
@@ -81,4 +66,28 @@ export function updateButtonState(state) {
 
     }
     console.log(state);
+}
+
+export function updateTimerDisplay(secondsToDisplay) {
+
+    let formattedTime = formatTime(secondsToDisplay);
+
+    $timerHours.value = formattedTime.hours;
+    $timerMinutes.value = formattedTime.minutes;
+    $timerSeconds.value = formattedTime.seconds;
+}
+
+/* функции для отображения статистики */
+export function updateSessionsCount(count) {
+    $sessionsCount.textContent = count;
+}
+
+export function updateTotalTime(seconds) {
+    const time = formatTime(seconds);
+    $totalTime.textContent = `${time.hours}:${time.minutes}:${time.seconds}`
+}
+
+export function updateAverageSession(seconds) {
+    const time = formatTime(seconds)
+    $averageSession.textContent = `${time.hours}:${time.minutes}:${time.seconds}`;
 }

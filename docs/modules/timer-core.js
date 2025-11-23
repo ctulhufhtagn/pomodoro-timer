@@ -1,6 +1,7 @@
 import { timerState } from './state-manager.js';
-import { displayTimer, updateButtonState } from './dom-manager.js';
+import { updateButtonState, updateTimerDisplay } from './dom-manager.js';
 import { playSound } from './sound-player.js';
+import { completeSession, formatTime } from './timer-statistics.js';
 
 export const timer = {
     timeLeft: 0,
@@ -33,7 +34,12 @@ export function startTimer() {
             timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
         }
 
+        timerState.sessionDuration = timer.timeLeft;
+        console.log('время сессии = ' + timerState.sessionDuration);
+
         timerState.hasBeenStarted = true;
+
+        updateTimerDisplay(timer.timeLeft);
 
         console.log(timerState.hasBeenStarted);
 
@@ -41,23 +47,21 @@ export function startTimer() {
 
     console.log('timeleft = ' + timer.timeLeft);
 
-    displayTimer();
-
     timer.intervalId = setInterval(() => {
 
         if (timer.timeLeft <= 0) {
+            completeSession(timerState.sessionDuration, timer.timeLeft);
             playSound(timerState.currentMode);
             clearInterval(timer.intervalId);
+            updateButtonState('reset');
             console.log("Таймер завершён!");
             timer.isRunning = false;
             return;
         }
 
         timer.timeLeft--;
-
-        displayTimer();
-
-        console.log(timer.timeLeft);
+        updateTimerDisplay(timer.timeLeft);
+        /* console.log(timer.timeLeft); */
 
     }, 1000);
 
@@ -79,6 +83,8 @@ export function pauseTimer() {
 
 export function resetTimer() {
 
+    completeSession(timerState.sessionDuration, timer.timeLeft);
+
     clearInterval(timer.intervalId);
 
     timer.isRunning = false;
@@ -86,7 +92,7 @@ export function resetTimer() {
 
     timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
 
-    displayTimer();
+    /* formatTime(); */
     updateButtonState('reset');
 
     console.log('timeleft = ' + timer.timeLeft);
