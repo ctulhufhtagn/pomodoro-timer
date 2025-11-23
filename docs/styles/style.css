@@ -230,6 +230,8 @@ button {
     pointer-events: none;
 }
 
+/* Статистика */
+
 .stats {
     margin-top: 100px;
     padding-top: 40px;
@@ -278,4 +280,43 @@ button {
     width: 30px;
     height: 30px;
     background-image: url(../images/edit-btn.png);
+}
+
+/* Модалка */
+
+.modal-calendar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    z-index: 1000;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-gap: 10px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-prev {
+    /* border: 2px solid red; */
+}
+
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    grid-template-rows: repeat(6, auto);
+    gap: 10px;
 }
