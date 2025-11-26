@@ -8,7 +8,6 @@ let statsToSave = {
 }
 
 let sessionsHistory = [];
-console.log(sessionsHistory);
 
 /* функция подсчёта среднего арифметического */
 function calculateAverageSession() {
@@ -16,8 +15,6 @@ function calculateAverageSession() {
 
     return sessionsHistory.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / sessionsHistory.length;
 }
-
-console.log('завершено сессий: ' + statsToSave.workSessions);
 
 /* функция форматирования времени в формат HH:MM:SS */
 export function formatTime(totalSeconds) {
@@ -40,24 +37,24 @@ function updateStatsDisplay() {
 }
 
 export function completeSession(sessionDuration, timeLeft) {
-    if (timerState.currentMode === 'work' && sessionDuration >= 300) {
+
+    const sessionTime = sessionDuration - timeLeft;
+
+    if (timerState.currentMode === 'work' && sessionTime >= 300) {
 
         /* Добавляем кол-во завершённых сессий */
         statsToSave.workSessions++;
         console.log('завершено сессий: ' + statsToSave.workSessions);
 
         /* Считаем общее время работы */
-        const sessionTime = sessionDuration - timeLeft;
 
         statsToSave.totalWorkTime += sessionTime;
 
-        console.log('Длительность сессии = ' + sessionTime)
         sessionsHistory.push(sessionTime);
 
-        console.log(sessionsHistory);
 
         /* Считаем среднее арифметическое всех сессий */
-        statsToSave.averageSession = calculateAverageSession();
+        statsToSave.averageSession = Math.floor(calculateAverageSession());
 
 
         /* меняем данные на странице */
@@ -82,14 +79,16 @@ function saveStatistics() {
 
 function loadStatistics() {
 
-    let data = JSON.parse(localStorage.getItem('PomodoroStatistics') || 'null');
+    let data = JSON.parse(localStorage.getItem('PomodoroStatistics') || '{}');
 
-    console.log(data)
-
-    /* обновляю данные dataToSave(statsToSave и sessionsHistory) */
-    statsToSave = data.stats;
-    sessionsHistory = data.history;
-    console.log(sessionsHistory);
+    /* обновляю данные dataToSave(statsToSave и sessionsHistory)
+        если данных нет(ещё не сохраняли стату) то прописывает пустые переменные и пустой массив*/
+    statsToSave = data.stats || {
+        workSessions: 0,
+        totalWorkTime: 0,
+        averageSession: 0,
+    }
+    sessionsHistory = data.history || [];
 
     updateStatsDisplay();
 }

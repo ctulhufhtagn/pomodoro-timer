@@ -284,7 +284,8 @@ button {
 
 /* Модалка */
 
-.modal-calendar {
+.modal {
+    /* display: none; */
     position: fixed;
     top: 0;
     left: 0;
@@ -295,16 +296,23 @@ button {
     justify-content: center;
     align-items: center;
 
-
     z-index: 1000;
 }
 
-.calendar-grid {
-    display: grid;
-    grid-gap: 10px;
+.calendar__container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
 }
 
-.navigation {
+.calendar__navigation {
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -314,9 +322,29 @@ button {
     /* border: 2px solid red; */
 }
 
-.calendar-body {
+.calendar__body,
+.calendar__days {
     display: grid;
     grid-template-columns: repeat(7, auto);
-    grid-template-rows: repeat(6, auto);
     gap: 10px;
+
+}
+
+.calendar__days {
+    grid-template-rows: repeat(6, auto);
+}
+
+.dayOfTheMonth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+}
+
+.dayOfTheMonth:hover {
+    cursor: default;
+    background-color: #d3d3d3;
+    border-radius: 20px;
 }

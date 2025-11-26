@@ -8,6 +8,10 @@ import { timerState } from './modules/state-manager.js';
 import { loadAllSounds } from './modules/sound-loader.js'
 import { playSound } from './modules/sound-player.js'
 
+/* */
+
+import { generateCalendar } from './modules/calendar-manager.js';
+
 import {
     /* Переменные хедера таймера */
     $timerModeSelector,
@@ -30,6 +34,7 @@ import {
     updateButtonState,
 
 } from './modules/dom-manager.js'
+
 
 /* Обработчики событий */
 
@@ -232,3 +237,5 @@ $timerDisplay.addEventListener('keydown', function (event) {
 document.addEventListener('DOMContentLoaded', function () {
     loadAllSounds();
 })
+
+generateCalendar();
