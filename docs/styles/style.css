@@ -86,7 +86,7 @@ button {
 
 .logo__icon {
     /* background-image: url(/images/corgi__icon.png); */
-    background-image: url(../images/corgi__icon.png);
+    background-image: url(../images/sleeping_corgi.png);
     width: 80px;
     height: 80px;
     background-size: contain;
@@ -285,14 +285,13 @@ button {
 /* Модалка */
 
 .modal {
-    /* display: none; */
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
 
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 

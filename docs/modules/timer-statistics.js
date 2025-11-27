@@ -36,6 +36,11 @@ function updateStatsDisplay() {
     updateAverageSession(statsToSave.averageSession);
 }
 
+function getTodayKey() {
+    const currentDate = new Date()
+    return currentDate.toISOString().split('T')[0];
+}
+
 export function completeSession(sessionDuration, timeLeft) {
 
     const sessionTime = sessionDuration - timeLeft;
@@ -52,10 +57,8 @@ export function completeSession(sessionDuration, timeLeft) {
 
         sessionsHistory.push(sessionTime);
 
-
         /* Считаем среднее арифметическое всех сессий */
         statsToSave.averageSession = Math.floor(calculateAverageSession());
-
 
         /* меняем данные на странице */
         updateStatsDisplay();
@@ -66,33 +69,68 @@ export function completeSession(sessionDuration, timeLeft) {
 }
 
 function saveStatistics() {
-    const dataToSave = {
+    const storageKey = getTodayKey();
 
+    const dataToSave = {
         stats: statsToSave,
         history: sessionsHistory,
     };
 
     console.log(`Сохранённые данные: ${dataToSave}`)
 
-    localStorage.setItem('PomodoroStatistics', JSON.stringify(dataToSave));
+    localStorage.setItem(storageKey, JSON.stringify(dataToSave));
 }
 
 function loadStatistics() {
 
-    let data = JSON.parse(localStorage.getItem('PomodoroStatistics') || '{}');
+    const storageKey = getTodayKey();
+
+    console.log(storageKey);
+
+    let todayData = JSON.parse(localStorage.getItem(storageKey) || '{}');
 
     /* обновляю данные dataToSave(statsToSave и sessionsHistory)
         если данных нет(ещё не сохраняли стату) то прописывает пустые переменные и пустой массив*/
-    statsToSave = data.stats || {
+    statsToSave = todayData.stats || {
         workSessions: 0,
         totalWorkTime: 0,
         averageSession: 0,
     }
-    sessionsHistory = data.history || [];
+
+    sessionsHistory = todayData.history || [];
 
     updateStatsDisplay();
+}
+
+export function loadStatisticsForDate(dateKey) {
+    const data = JSON.parse(localStorage.getItem(dateKey))
+    return data;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     loadStatistics();
 })
+
+/* localStorage.clear(); */
+
+/* Функция saveDailyStats():
+  - Получить ключ сегодняшней даты
+  - Загрузить ВСЕ данные из localStorage (объект всех дней)
+  - Обновить статистику для текущего ключа:
+      * workSessions: увеличить на 1
+      * totalWorkTime: прибавить sessionTime  
+      * sessionsHistory: добавить sessionTime
+      * averageSession: пересчитать
+  - Сохранить обновленный объект обратно в localStorage */
+
+/*   Функция loadDailyStats(dateKey):
+  - Загрузить ВСЕ данные из localStorage
+  - Найти объект статистики по dateKey
+  - Если нет данных за эту дату - вернуть пустой шаблон
+  - Отобразить найденную статистику */
+
+/* Статистика становится объектом объектов, а не единым объектом
+
+Ключом выступает дата вместо фиксированного 'PomodoroStatistics'
+
+При сохранении мержим данные, а не перезаписываем всё */

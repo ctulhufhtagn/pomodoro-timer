@@ -25,6 +25,7 @@ const $averageSession = document.querySelector('#average-session');
 
 /* Календарь */
 export const $calendarDays = document.querySelector('.calendar__days');
+export const $statsTitle = document.querySelector('.stats__title');
 
 export function updateButtonState(state) {
 
