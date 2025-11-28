@@ -1,19 +1,24 @@
 import { timerState } from './state-manager.js';
 import { updateSessionsCount, updateTotalTime, updateAverageSession } from './dom-manager.js';
 
-let statsToSave = {
+let todayStats = {
+    workSessions: 0,
+    totalWorkTime: 0,
+    averageSession: 0,
+    sessionsHistory: [],
+};
+
+let displayedStats = {
     workSessions: 0,
     totalWorkTime: 0,
     averageSession: 0,
 }
 
-let sessionsHistory = [];
-
 /* функция подсчёта среднего арифметического */
 function calculateAverageSession() {
-    if (sessionsHistory.length === 0) return 0;
+    if (todayStats.sessionsHistory.length === 0) return 0;
 
-    return sessionsHistory.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / sessionsHistory.length;
+    return todayStats.sessionsHistory.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / todayStats.sessionsHistory.length;
 }
 
 /* функция форматирования времени в формат HH:MM:SS */
@@ -30,10 +35,10 @@ export function formatTime(totalSeconds) {
     }
 }
 
-function updateStatsDisplay() {
-    updateSessionsCount(statsToSave.workSessions);
-    updateTotalTime(statsToSave.totalWorkTime);
-    updateAverageSession(statsToSave.averageSession);
+export function updateStatsDisplay(stats = todayStats) {
+    updateSessionsCount(stats.workSessions || 0);
+    updateTotalTime(stats.totalWorkTime || 0);
+    updateAverageSession(stats.averageSession || 0);
 }
 
 function getTodayKey() {
@@ -48,17 +53,17 @@ export function completeSession(sessionDuration, timeLeft) {
     if (timerState.currentMode === 'work' && sessionTime >= 300) {
 
         /* Добавляем кол-во завершённых сессий */
-        statsToSave.workSessions++;
-        console.log('завершено сессий: ' + statsToSave.workSessions);
+        todayStats.workSessions++;
+        console.log('завершено сессий: ' + todayStats.workSessions);
 
         /* Считаем общее время работы */
 
-        statsToSave.totalWorkTime += sessionTime;
+        todayStats.totalWorkTime += sessionTime;
 
-        sessionsHistory.push(sessionTime);
+        todayStats.sessionsHistory.push(sessionTime);
 
         /* Считаем среднее арифметическое всех сессий */
-        statsToSave.averageSession = Math.floor(calculateAverageSession());
+        todayStats.averageSession = Math.floor(calculateAverageSession());
 
         /* меняем данные на странице */
         updateStatsDisplay();
@@ -71,66 +76,32 @@ export function completeSession(sessionDuration, timeLeft) {
 function saveStatistics() {
     const storageKey = getTodayKey();
 
-    const dataToSave = {
-        stats: statsToSave,
-        history: sessionsHistory,
-    };
-
-    console.log(`Сохранённые данные: ${dataToSave}`)
-
-    localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+    localStorage.setItem(storageKey, JSON.stringify(todayStats));
 }
 
 function loadStatistics() {
 
     const storageKey = getTodayKey();
 
-    console.log(storageKey);
+    console.log("Данные за сегодня: " + storageKey);
 
-    let todayData = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    let storedData = JSON.parse(localStorage.getItem(storageKey) || '{}');
 
-    /* обновляю данные dataToSave(statsToSave и sessionsHistory)
-        если данных нет(ещё не сохраняли стату) то прописывает пустые переменные и пустой массив*/
-    statsToSave = todayData.stats || {
-        workSessions: 0,
-        totalWorkTime: 0,
-        averageSession: 0,
-    }
-
-    sessionsHistory = todayData.history || [];
+    todayStats = {
+        workSessions: storedData.workSessions || 0,
+        totalWorkTime: storedData.totalWorkTime || 0,
+        averageSession: storedData.averageSession || 0,
+        sessionsHistory: storedData.sessionsHistory || [],
+    };
 
     updateStatsDisplay();
 }
 
 export function loadStatisticsForDate(dateKey) {
-    const data = JSON.parse(localStorage.getItem(dateKey))
+    const data = JSON.parse(localStorage.getItem(dateKey) || '{}')
     return data;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     loadStatistics();
 })
-
-/* localStorage.clear(); */
-
-/* Функция saveDailyStats():
-  - Получить ключ сегодняшней даты
-  - Загрузить ВСЕ данные из localStorage (объект всех дней)
-  - Обновить статистику для текущего ключа:
-      * workSessions: увеличить на 1
-      * totalWorkTime: прибавить sessionTime  
-      * sessionsHistory: добавить sessionTime
-      * averageSession: пересчитать
-  - Сохранить обновленный объект обратно в localStorage */
-
-/*   Функция loadDailyStats(dateKey):
-  - Загрузить ВСЕ данные из localStorage
-  - Найти объект статистики по dateKey
-  - Если нет данных за эту дату - вернуть пустой шаблон
-  - Отобразить найденную статистику */
-
-/* Статистика становится объектом объектов, а не единым объектом
-
-Ключом выступает дата вместо фиксированного 'PomodoroStatistics'
-
-При сохранении мержим данные, а не перезаписываем всё */

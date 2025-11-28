@@ -1,6 +1,6 @@
 import { $calendarDays, $statsTitle } from './dom-manager.js';
 
-import { loadStatisticsForDate } from './timer-statistics.js';
+import { loadStatisticsForDate, updateStatsDisplay } from './timer-statistics.js';
 
 const daysOfWeek = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
 
@@ -36,7 +36,6 @@ export function generateCalendar() {
     /* Очищаем контейнер */
     $calendarDays.innerHTML = '';
 
-    console.log('paddingDays:', paddingDays);
 
     for (let i = 1; i <= paddingDays + daysInMonth; i++) {
         const dayDiv = document.createElement('div');
@@ -67,18 +66,23 @@ function handleDayClick(e) {
     let clickedDay = null;
     clickedDay = parseInt(clickedElement.textContent);
 
-    calendarDates.clickedDate = new Date(calendarDates.year, calendarDates.month, clickedDay);
+    calendarDates.day = clickedDay;
 
-    console.log(calendarDates);
+    calendarDates.clickedDate = new Date(calendarDates.year, calendarDates.month, clickedDay);
 
     $statsTitle.textContent = `Статистика за ${clickedDay}.${calendarDates.month + 1}.${calendarDates.year}`;
 
     /* получаем из localstorage данные за выбранную дату */
-    const dateKey = calendarDates.clickedDate.toISOString().split('T')[0];
-    loadStatisticsForDate(dateKey);
+    /* const dateKey = calendarDates.clickedDate.toISOString().split('T')[0]; */
+    const dateKey = `${calendarDates.year}-${calendarDates.month + 1}-${clickedDay.toString().padStart(2, '0')}`
 
-    /* обновляем страницу */
-    updateStatsDisplay();
+    console.log("dateKey: ", dateKey);
+
+    const selectedDate = loadStatisticsForDate(dateKey);
+    console.log('Данные за', clickedDay, ':', selectedDate);
+    updateStatsDisplay(selectedDate);
+
+    console.log(calendarDates.date);
 }
 
-/*  220 + 40 цель 300*/
+/* 50+ 60  цель 240-300 */
