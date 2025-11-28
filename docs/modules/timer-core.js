@@ -27,8 +27,6 @@ export function startTimer() {
 
             timer.timeLeft = timerState.currentHours * 3600 + timerState.currentMinutes * 60 + timerState.currentSeconds;
 
-            console.log('в кастоме', timer.isRunning);
-
         } else {
             /* === условие ? если истинно : если ложно */
             timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
@@ -40,8 +38,6 @@ export function startTimer() {
         timerState.hasBeenStarted = true;
 
         updateTimerDisplay(timer.timeLeft);
-
-        console.log(timerState.hasBeenStarted);
 
     }
 
@@ -58,16 +54,13 @@ export function startTimer() {
             timer.isRunning = false;
             return;
         }
-
         timer.timeLeft--;
         updateTimerDisplay(timer.timeLeft);
-        /* console.log(timer.timeLeft); */
-
     }, 1000);
-
 }
 
 export function pauseTimer() {
+    startTimer
 
     console.log('Pause called, intervalId:', timer.intervalId);
 

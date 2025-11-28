@@ -85,4 +85,4 @@ function handleDayClick(e) {
     console.log(calendarDates.date);
 }
 
-/* 50+ 60  цель 240-300 */
+/* 420  цель 240-300 */
