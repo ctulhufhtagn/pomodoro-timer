@@ -22,10 +22,18 @@ export let $timerControls = document.querySelector('.timer__controls');
 const $sessionsCount = document.querySelector('#sessions-count');
 const $totalTime = document.querySelector('#total-time');
 const $averageSession = document.querySelector('#average-session');
+export const $statsCalendarButton = document.querySelector('.stats__calendar-button');
 
 /* Календарь */
+export const $modal = document.querySelector('.modal');
+export const $modalOverlay = document.querySelector('.modal__overlay');
+export const $calendarContainer = document.querySelector('.calendar__container');
 export const $calendarDays = document.querySelector('.calendar__days');
 export const $statsTitle = document.querySelector('.stats__title');
+export const $calendarYearSelector = document.querySelector('.calendar__year-selector')
+export const $calendarMonthSelector = document.querySelector('.calendar__month-selector');
+export const $calendarNavBtnNext = document.querySelector('.calendar__nav-btn--next')
+export const $calendarNavBtnPrev = document.querySelector('.calendar__nav-btn--prev')
 
 export function updateButtonState(state) {
 

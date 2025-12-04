@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+/* убираем дефолт стрелки из инпута */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    background: #0a377e;
+    margin: 0;
+}
+
 body {
     margin: 0;
     font-family: 'Roboto Mono', monospace;
@@ -86,7 +95,7 @@ button {
 
 .logo__icon {
     /* background-image: url(/images/corgi__icon.png); */
-    background-image: url(../images/sleeping_corgi.png);
+    background-image: url(../images/sleeping.png);
     width: 80px;
     height: 80px;
     background-size: contain;
@@ -298,6 +307,20 @@ button {
     z-index: 1000;
 }
 
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.modal--open {
+    display: flex;
+}
+
 .calendar__container {
     display: flex;
     gap: 10px;
@@ -306,7 +329,7 @@ button {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(4px);
     border-radius: 20px;
-    padding: 30px;
+    padding: 15px;
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
 }
@@ -315,6 +338,95 @@ button {
     display: flex;
     justify-content: center;
     gap: 10px;
+    align-items: start;
+}
+
+.calendar__month-selector {
+    position: relative;
+}
+
+.calendar__months-list {
+    /* сброс стилей */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    /* нужно чтобы список был не в календаре и не расширял его при открытии */
+    position: absolute;
+
+    display: none;
+    flex-direction: column;
+    align-items: start;
+
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    min-width: 80px;
+}
+
+.calendar__months-list--opened {
+    display: flex;
+}
+
+.calendar__months-item {
+    width: 100%;
+    text-align: left
+}
+
+.calendar__months-item:hover {
+    background: #dbeafe;
+}
+
+.calendar__year-group {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+}
+
+.calendar__year-group:hover .calendar__year-controls {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease;
+}
+
+.calendar__year-selector {
+    width: 100%;
+    padding-right: 25px;
+    box-sizing: border-box;
+}
+
+.calendar__year-controls {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    width: 14px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 2px);
+
+    background: #f5f5f5;
+    border-left: 1px solid #ccc;
+    border-radius: 0 3px 3px 0;
+}
+
+.year-controls__up,
+.year-controls__down {
+    margin: 0;
+    font-size: 8px;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.year-controls__up {
+    border-bottom: 1px solid #ccc;
 }
 
 .nav-prev {

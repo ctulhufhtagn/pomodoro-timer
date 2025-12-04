@@ -221,10 +221,6 @@ $timerDisplay.addEventListener('keydown', function (event) {
 
             event.preventDefault();
 
-            /* timer.timeLeft = timerState.currentHours * 3600 +
-                timerState.currentMinutes * 60 +
-                timerState.currentSeconds */
-
             startTimer();
 
             break;
@@ -237,5 +233,3 @@ $timerDisplay.addEventListener('keydown', function (event) {
 document.addEventListener('DOMContentLoaded', function () {
     loadAllSounds();
 })
-
-generateCalendar();

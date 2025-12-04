@@ -84,11 +84,19 @@
         </div> <!-- container -->
 
         <div class="modal">
+            <div class="modal__overlay"></div>
             <div class="calendar__container">
                 <div class="calendar__navigation">
                     <button class="calendar__nav-btn calendar__nav-btn--prev">&lt</button>
-                    <div class="calendar__month-selector">Ноябрь
+                    <button class="calendar__month-selector">Ноябрь
                         <span class="calendar__dropdown-arrow">▼</span>
+                    </button>
+                    <div class="calendar__year-group">
+                        <input type="number" class="calendar__year-selector">
+                        <div class="calendar__year-controls">
+                            <button class="year-controls__up">▲</button>
+                            <button class="year-controls__down">▼</button>
+                        </div>
                     </div>
                     <button class="calendar__nav-btn calendar__nav-btn--next">&gt</button>
                 </div>
