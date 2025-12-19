@@ -34,6 +34,22 @@ export const $calendarYearSelector = document.querySelector('.calendar__year-sel
 export const $calendarMonthSelector = document.querySelector('.calendar__month-selector');
 export const $calendarNavBtnNext = document.querySelector('.calendar__nav-btn--next')
 export const $calendarNavBtnPrev = document.querySelector('.calendar__nav-btn--prev')
+export const $periodDropdownList = document.querySelector('.period-dropdown__list');
+export const $dropdownText = document.querySelector('.dropdown__text');
+
+/* Переключение цветовой темы */
+export const $sidebar = document.querySelector('.sidebar');
+export const $sidebarButtonTheme = document.querySelector('.sidebar__button--theme');
+export const $sidebarButtonLang = document.querySelector('.sidebar__button--lang');
+export const $page = document.querySelector('.page')
+
+/* Смена языка */
+export const $buttonLang = document.querySelector('.sidebar__button--lang')
+
+/* Регулировка звука */
+export const volumeSlider = document.querySelector('.volume-slider');
+export const soundModal = document.querySelector('.sound-modal');
+export const muteBtn = document.querySelector('.mute-button');
 
 export function updateButtonState(state) {
 
@@ -87,6 +103,15 @@ export function updateTimerDisplay(secondsToDisplay) {
     $timerHours.value = formattedTime.hours;
     $timerMinutes.value = formattedTime.minutes;
     $timerSeconds.value = formattedTime.seconds;
+
+    /* */
+    $timerHours.classList.remove('timer__part--active');
+    $timerMinutes.classList.remove('timer__part--active');
+    $timerSeconds.classList.remove('timer__part--active');
+
+    if ($timerHours.value > 0) $timerHours.classList.add('timer__part--active');
+    if ($timerMinutes.value > 0 || $timerHours.value > 0) $timerMinutes.classList.add('timer__part--active');
+    if ($timerSeconds.value > 0 || $timerMinutes.value > 0) $timerSeconds.classList.add('timer__part--active');
 }
 
 /* функции для отображения статистики */

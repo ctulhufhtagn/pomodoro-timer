@@ -41,7 +41,7 @@ export function updateStatsDisplay(stats = todayStats) {
     updateAverageSession(stats.averageSession || 0);
 }
 
-function getTodayKey() {
+export function getTodayKey() {
     const currentDate = new Date()
     return currentDate.toISOString().split('T')[0];
 }
@@ -54,7 +54,6 @@ export function completeSession(sessionDuration, timeLeft) {
 
         /* Добавляем кол-во завершённых сессий */
         todayStats.workSessions++;
-        console.log('завершено сессий: ' + todayStats.workSessions);
 
         /* Считаем общее время работы */
 

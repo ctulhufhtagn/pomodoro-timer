@@ -5,11 +5,11 @@ import { startTimer, pauseTimer, resetTimer, timer } from './modules/timer-core.
 import { timerState } from './modules/state-manager.js';
 
 /* Грузим и воспроизводим звуки */
-import { loadAllSounds } from './modules/sound-loader.js'
-import { playSound } from './modules/sound-player.js'
+import { loadDefaultSounds } from './modules/sound-loader.js'
+/* import { playSound, } from './modules/sound-player.js' */
+
 
 /* */
-
 import { generateCalendar } from './modules/calendar-manager.js';
 
 import {
@@ -33,8 +33,22 @@ import {
     /* функция отображения и изменения кнопок*/
     updateButtonState,
 
+    /* кнопка изменения цветовой темы */
+    $sidebarButtonTheme,
+    $sidebar,
+    $page,
+
+    $dropdownText,
 } from './modules/dom-manager.js'
 
+/* Смена языка*/
+import { updateMonthHeader, switchLanguage, updateAllText, updateCalendarDayHeaders, updateDropdownText } from './modules/lang.js'
+
+import { soundModal } from './modules/dom-manager.js';
+
+import { openSoundDropdown, toggleSoundModal } from './modules/sound-settings.js';
+
+import { muteSound, loadSoundSettings, } from './modules/sound-player.js';
 
 /* Обработчики событий */
 
@@ -228,8 +242,43 @@ $timerDisplay.addEventListener('keydown', function (event) {
     }
 });
 
+$sidebar.addEventListener('click', (e) => {
+    const clickedElement = e.target;
+
+    if (clickedElement.classList.contains('sidebar__button--theme')) {
+        $page.classList.toggle('dark-theme');
+
+        const isDark = $page.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+    else if (clickedElement.classList.contains('sidebar__button--lang')) {
+        switchLanguage();
+        updateMonthHeader();
+        updateAllText();
+        updateCalendarDayHeaders();
+        updateDropdownText()
+    }
+    else if (clickedElement.classList.contains('sidebar__button--sound-settings')) {
+        toggleSoundModal();
+    }
+    else if (clickedElement.classList.contains('modal-close')) {
+        toggleSoundModal();
+    }
+    else if (clickedElement.classList.contains('mute-button')) {
+        muteSound();
+    }
+})
+
 /* Загружаем звуки, после dom дерева */
 
-document.addEventListener('DOMContentLoaded', function () {
-    loadAllSounds();
+document.addEventListener('DOMContentLoaded', async function () {
+    await loadDefaultSounds();
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        $page.classList.add('dark-theme');
+    }
+    loadSoundSettings();
+});

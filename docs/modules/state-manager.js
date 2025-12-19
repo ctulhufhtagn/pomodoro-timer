@@ -1,4 +1,3 @@
-
 /* Состояния таймера */
 export const timerState = {
     currentMode: "work",

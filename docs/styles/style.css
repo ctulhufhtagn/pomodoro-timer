@@ -13,6 +13,11 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+/* background: rgba(30, 27, 75, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); */
+
 body {
     margin: 0;
     font-family: 'Roboto Mono', monospace;
@@ -40,7 +45,157 @@ button {
     display: flex;
 }
 
+/*  */
+
+/* Ночная тема */
+
+.page.dark-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e6e6e6;
+}
+
+.dark-theme .sidebar {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .logo__icon {
+    background-image: url(../images/sleeping.png);
+}
+
+.dark-theme .sidebar__button {
+    filter: invert(0.9) brightness(0.8);
+}
+
+.dark-theme .sidebar__button:hover {
+    filter: invert(1) brightness(1);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .sidebar__button--lang {
+    color: #333;
+}
+
+.dark-theme .sound-modal {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .selected-sound {
+    color: #111;
+}
+
+.dark-theme .sound-dropdown {
+    background: rgba(30, 27, 75, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .header {
+    background: rgba(30, 30, 46, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .timer__mode-button:hover {
+    background: rgba(80, 80, 100, 0.7);
+    color: #cbd5e1;
+}
+
+.dark-theme .timer__mode-button--active {
+    /* background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); */
+    color: white;
+    /* box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3); */
+}
+
+.dark-theme .timer__part:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+    background: rgba(30, 30, 45, 0.9);
+}
+
+.dark-theme .timer__button:hover {
+    background-color: rgba(80, 80, 100, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+}
+
+.dark-theme .stats-grid__value {
+    color: #e2e8f0;
+}
+
+.dark-theme .modal__overlay {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.dark-theme .calendar__container {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .calendar__months-list {
+    background: rgba(30, 27, 75, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .calendar__nav-btn:hover,
+.dark-theme .calendar__month-selector:hover {
+    background: rgba(79, 70, 229, 0.7);
+}
+
+.dark-theme .dayOfTheMonth:hover {
+    background: rgba(79, 70, 229, 0.5);
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+.dark-theme .period-dropdown__list {
+    background: rgba(30, 27, 75, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .period-dropdown__item {
+    color: #cbd5e1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .period-dropdown__item:hover {
+    background: rgba(79, 70, 229, 0.3);
+    color: #e2e8f0;
+}
+
+.dark-theme .stats-edit-button,
+.dark-theme .stats__calendar-button,
+.dark-theme .timer__button--settings {
+    filter: invert(0.8) brightness(1.2);
+}
+
+
+
+/*  */
+.page,
+.sidebar,
+.container,
+.timer,
+.stats,
+.calendar__container,
+.timer__mode-button,
+.timer__part,
+.timer__button {
+    transition: all 0.3s ease;
+}
+
 .sidebar {
+    position: relative;
+
     width: 40px;
     padding-top: 20px;
     display: flex;
@@ -49,7 +204,7 @@ button {
     align-items: center;
 
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -58,16 +213,147 @@ button {
     height: 30px;
 }
 
+.sidebar__button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+}
+
 .sidebar__button--theme {
-    /* background-image: url(/images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png); */
-    /* background-image: url(./images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png); */
     background-image: url(../images/png-transparent-computer-icons-icon-contrast-angle-text-trademark.png);
 }
 
-.sidebar__button--music {
-    /* background-image: url(/images/music.png); */
-    /* background-image: url(./images/settings__button.png); */
+.sidebar__button--sound-settings {
     background-image: url(../images/music.png);
+}
+
+/* Модалка с настройками звуков */
+
+.sound-modal {
+    position: absolute;
+
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+
+    left: 50px;
+    width: 250px;
+    height: 250px;
+
+    z-index: 1000;
+}
+
+.sound-modal--active {
+    display: flex;
+}
+
+.modal-close {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+
+    font-size: 20px;
+}
+
+.sound-setting {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.setting-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.sound-select-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 5px;
+
+    min-width: 120px;
+    height: 35px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f8f9fa;
+    /* background: white; */
+    cursor: pointer;
+}
+
+.selected-sound {
+    font-size: 14px;
+}
+
+.sound-dropdown {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+
+    width: 100%;
+
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.sound-dropdown--active {
+    display: block;
+}
+
+.dropdown-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+}
+
+.dropdown-item:hover {
+    background: #dbeafe;
+}
+
+.sidebar__button--lang {
+    font-weight: 900;
+    font-size: 20px;
 }
 
 .container {
@@ -94,8 +380,7 @@ button {
 }
 
 .logo__icon {
-    /* background-image: url(/images/corgi__icon.png); */
-    background-image: url(../images/sleeping.png);
+    background-image: url(../images/corgi__icon.png);
     width: 80px;
     height: 80px;
     background-size: contain;
@@ -134,6 +419,10 @@ button {
     color: #666;
 }
 
+.timer__mode-button--work {
+    color: #666;
+}
+
 .timer__mode-button--active {
     color: #FFF;
 }
@@ -162,7 +451,9 @@ button {
 } */
 
 .timer__part {
-    color: rgba(255, 255, 255, 0.3);
+    /* color: rgba(255, 255, 255, 0.3); */
+    color: #666;
+
 
     /* Сброс стандартных стилей */
     border: none;
@@ -171,7 +462,7 @@ button {
 
     /* Наследование шрифта и цвета */
     font: inherit;
-    color: inherit;
+    /* color: inherit; */
 
     /* Убираем стрелки у number input */
     -moz-appearance: textfield;
@@ -198,7 +489,6 @@ button {
 }
 
 .timer__button--settings {
-    /* background-image: url(/images/settings__button.png); */
     background-image: url(../images/settings__button.png);
     width: 30px;
     height: 50px;
@@ -209,21 +499,18 @@ button {
 } */
 
 .timer__button--start {
-    /* background-image: url(/images/play__button.png); */
     background-image: url(../images/play__button.png);
     width: 70px;
     height: 70px;
 }
 
 .timer__button--pause {
-    /* background-image: url(/images/pause__button.png); */
     background-image: url(../images/pause__button.png);
     width: 70px;
     height: 70px;
 }
 
 .timer__button--reset {
-    /* background-image: url(/images/reset__button.png); */
     background-image: url(../images/reset__button.png);
     width: 70px;
     height: 70px;
@@ -237,6 +524,58 @@ button {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+}
+
+.sound__controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mute-button {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.range {
+    appearance: none;
+    border-radius: 50px;
+    outline: none;
+    height: 6px;
+}
+
+.range::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #1565c0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.range::-webkit-slider-thumb:hover {
+    background: #0d47a1;
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(21, 101, 192, 0.6);
+}
+
+.dark-theme .range::-webkit-slider-thumb {
+    background: #7c3aed;
+    /* Фиолетовый из вашей тёмной темы */
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+}
+
+.dark-theme .range::-webkit-slider-thumb:hover {
+    background: #6d28d9;
+    /* Темнее при наведении */
+    border-color: white;
+    transform: scale(1.2);
+    box-shadow:
+        0 0 0 3px rgba(124, 58, 237, 0.2),
+        0 4px 15px rgba(109, 40, 217, 0.5);
 }
 
 /* Статистика */
@@ -304,7 +643,7 @@ button {
     justify-content: center;
     align-items: center;
 
-    z-index: 1000;
+    z-index: 2;
 }
 
 .modal__overlay {
@@ -343,6 +682,7 @@ button {
 
 .calendar__month-selector {
     position: relative;
+    width: 77px;
 }
 
 .calendar__months-list {
@@ -364,6 +704,7 @@ button {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 8px 0;
     min-width: 80px;
+    z-index: 1000;
 }
 
 .calendar__months-list--opened {
@@ -372,7 +713,8 @@ button {
 
 .calendar__months-item {
     width: 100%;
-    text-align: left
+    text-align: left;
+    padding: 5px;
 }
 
 .calendar__months-item:hover {
@@ -429,8 +771,8 @@ button {
     border-bottom: 1px solid #ccc;
 }
 
-.nav-prev {
-    /* border: 2px solid red; */
+.calendar__body {
+    font-weight: 700;
 }
 
 .calendar__body,
@@ -443,6 +785,9 @@ button {
 
 .calendar__days {
     grid-template-rows: repeat(6, auto);
+    min-width: 20px;
+    min-height: 20px;
+    max-height: 150px;
 }
 
 .dayOfTheMonth {
@@ -454,8 +799,77 @@ button {
     height: 20px;
 }
 
+.padding__day {
+    width: 20px;
+    height: 20px;
+}
+
 .dayOfTheMonth:hover {
     cursor: default;
     background-color: #d3d3d3;
     border-radius: 20px;
+}
+
+/* Выбор периода */
+.stats-period {
+    position: relative;
+    display: inline-block;
+    min-width: 140px;
+    /* фиксированная ширина */
+    margin-top: 20px;
+}
+
+.period-dropdown__button {
+    font-size: 15px;
+}
+
+.dropdown__title {
+    font-weight: 500;
+    color: #666;
+}
+
+.dropdown__text {
+    font-weight: 600;
+    margin: 0 4px;
+}
+
+.period-dropdown__list {
+    display: none;
+    flex-direction: column;
+    align-items: start;
+
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    min-width: 80px;
+
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1001;
+    /* width: 100%; */
+    /* такой же ширины как кнопка */
+    /* margin-top: 4px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    
+    overflow: hidden; */
+}
+
+.period-dropdown__list--opened {
+    display: flex;
+}
+
+.period-dropdown__item {
+    padding-left: 5px;
+}
+
+.ff__mage {
+    width: 20px;
+    height: 20px;
 }

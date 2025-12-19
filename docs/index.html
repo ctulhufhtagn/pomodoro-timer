@@ -14,23 +14,83 @@
 <body>
     <div class="page">
         <aside class="sidebar">
-            <button class="sidebar__button sidebar__button--theme"></button>
-            <button class="sidebar__button sidebar__button--music"></button>
-        </aside>
+            <button class="sidebar__button sidebar__button--theme sidebar__light-theme"></button>
+            <button class="sidebar__button sidebar__button--sound-settings"></button>
+            <button class="sidebar__button sidebar__button--lang">RU</button>
+            <div class="sound-modal">
+                <button class="modal-close">×</button>
+                <!-- работа -->
+                <div class="sound-setting">
+                    <div class="setting-header">
+                        <h3 class="setting-title" data-lang="soundWorkMode">Работа</h3>
+                        <div class="select-wrapper">
+                            <button class="sound-select-btn" data-mode="work">
+                                <span class="selected-sound">bell</span>
+                                <span class="select-arrow">▼</span>
+                            </button>
+
+                            <div class="sound-dropdown" data-mode="work">
+                                <ul class="dropdown-list">
+                                    <li><button class="dropdown-item" data-sound="work-bell">bell</button>
+                                    </li>
+                                    <li><button class="dropdown-item" data-sound="work-arcade">arcade</button></li>
+                                    <li><button class="dropdown-item" data-sound="work-ring">ring</button></li>
+                                    <li><button class="dropdown-item" data-sound="work-final fantasy"><img
+                                                class="ff__mage" src="/images/ff.png" alt=""></button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- отдых -->
+                    <div class="setting-header">
+                        <h3 class="setting-title" data-lang="soundBreakMode">Отдых</h3>
+                        <div class="select-wrapper">
+                            <button class="sound-select-btn" data-mode="break">
+                                <span class="selected-sound">bell</span>
+                                <span class="select-arrow">▼</span>
+                            </button>
+
+                            <div class="sound-dropdown" data-mode="break">
+                                <ul class="dropdown-list">
+                                    <li><button class="dropdown-item" data-sound="break-bell">bell</button>
+                                    </li>
+                                    <li><button class="dropdown-item" data-sound="break-arcade">arcade</button></li>
+                                    <li><button class="dropdown-item" data-sound="break-ring">ring</button></li>
+                                    <li><button class="dropdown-item" data-sound="break-final fantasy"><img
+                                                class="ff__mage" src="/images/ff.png" alt=""></button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- /setting-header -->
+                </div><!-- /sound-setting -->
+
+                <!-- Регулировка громкости -->
+                <div class="sound__controls">
+                    <button class="mute-button">🔊</button>
+                    <form action="" class="form">
+                        <input type="range" class="volume-slider" min="0" max="100" value="50">
+                    </form>
+                </div>
+            </div><!-- /sound-modal -->
+        </aside><!-- /sidebar -->
         <div class="container">
             <header class="header">
                 <div class="logo">
                     <span class="logo__icon"></span>
-                    <h1 class="logo__text">Учись, собака!</h1>
+                    <h1 class="logo__text" data-lang="appTitle">Учись, собака!</h1>
                 </div>
             </header>
             <main class="main">
                 <div class="timer">
                     <div class="timer__mode-selector">
-                        <button class="timer__mode-button timer__mode-button--work timer__mode-button--active">
+                        <button class="timer__mode-button timer__mode-button--work timer__mode-button--active"
+                            data-lang="workMode">
                             Работа
                         </button>
-                        <button class="timer__mode-button timer__mode-button--break">
+                        <button class="timer__mode-button timer__mode-button--break" data-lang="breakMode">
                             Отдых
                         </button>
                     </div>
@@ -44,44 +104,44 @@
                     </div>
                     <div class="timer__controls">
                         <button class="timer__button timer__button--pause" aria-label="Пауза таймера"
-                            aria-hidden="true"> </button>
+                            aria-hidden="true">
+                        </button>
                         <button class="timer__button timer__button--start timer__button--active"
                             aria-label="Старт таймера"></button>
                         <button class="timer__button timer__button--reset" aria-label="Сброс таймера"
-                            aria-hidden="true"> </button>
+                            aria-hidden="true">
+                        </button>
                     </div>
-                </div>
+                </div> <!-- /timer -->
 
                 <div class="stats">
                     <div class="stats__header">
-                        <h2 class="stats__title">Статистика за день</h2>
+                        <h2 class="stats__title" data-lang="statsTitleDay">Статистика за день </h2>
                         <button class="stats__calendar-button"></button>
                     </div>
 
                     <div class="stats-grid">
 
-                        <div class="stats-grid__label">Завершено сессий</div>
+                        <div class="stats-grid__label" data-lang="sessionsCompleted">Завершено сессий</div>
                         <div class="stats-grid__value">
                             <span id="sessions-count" class="stat-value">-</span>
-                            <button class="stats-edit-button"></button>
                         </div>
 
-                        <div class="stats-grid__label">Общее время работы</div>
+                        <div class="stats-grid__label" data-lang="totalWorkTime">Общее время работы</div>
                         <div class="stats-grid__value">
                             <span id="total-time" class="stat-value">-</span>
-                            <button class="stats-edit-button"></button>
                         </div>
 
-                        <div class="stats-grid__label">Средняя сессия</div>
+                        <div class="stats-grid__label" data-lang="averageSession">Средняя сессия</div>
                         <div class="stats-grid__value">
                             <span id="average-session" class="stat-value">-</span>
                         </div>
 
                     </div>
 
-                </div>
+                </div> <!-- /stats -->
             </main>
-        </div> <!-- container -->
+        </div> <!-- /container -->
 
         <div class="modal">
             <div class="modal__overlay"></div>
@@ -102,21 +162,33 @@
                 </div>
 
                 <div class="calendar__body">
-                    <div class="calendar__day-header">Пн</div>
-                    <div class="calendar__day-header">Вт</div>
-                    <div class="calendar__day-header">Ср</div>
-                    <div class="calendar__day-header">Чт</div>
-                    <div class="calendar__day-header">Пт</div>
-                    <div class="calendar__day-header">Сб</div>
-                    <div class="calendar__day-header">Вс</div>
+                    <div class="calendar__day-header" data-lang="">Пн</div>
+                    <div class="calendar__day-header" data-lang="">Вт</div>
+                    <div class="calendar__day-header" data-lang="">Ср</div>
+                    <div class="calendar__day-header" data-lang="">Чт</div>
+                    <div class="calendar__day-header" data-lang="">Пт</div>
+                    <div class="calendar__day-header" data-lang="">Сб</div>
+                    <div class="calendar__day-header" data-lang="">Вс</div>
                 </div>
 
                 <div class="calendar__days" id="days"></div>
-            </div> <!-- calendar-container  -->
-        </div> <!-- modal -->
 
-    </div> <!-- page -->
+                <div class="stats-period">
+                    <button class="period-dropdown__button">
+                        <span class="dropdown__title" data-lang="selectPeriod">Статистика за</span>
+                        <span class="dropdown__text" data-lang="dayPeriod">День</span>
+                        <span class="dropdown__arrow-down">▼</span>
+                    </button>
+                    <div class="period-dropdown__list">
+                        <button class="period-dropdown__item" data-period="day" data-lang="dayPeriod">День</button>
+                        <button class="period-dropdown__item" data-period="week" data-lang="weekPeriod">Неделя</button>
+                        <button class="period-dropdown__item" data-period="month" data-lang="monthPeriod">Месяц</button>
+                    </div>
+                </div>
+            </div> <!-- /calendar-container  -->
+        </div> <!-- /modal -->
 
+    </div> <!-- /page -->
     <script src="./script.js" type="module"></script>
 </body>
 

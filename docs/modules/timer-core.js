@@ -1,6 +1,6 @@
 import { timerState } from './state-manager.js';
 import { updateButtonState, updateTimerDisplay } from './dom-manager.js';
-import { playSound } from './sound-player.js';
+import { playSound } from './sound-loader.js';
 import { completeSession, formatTime } from './timer-statistics.js';
 
 export const timer = {
@@ -10,36 +10,32 @@ export const timer = {
 }
 
 export function startTimer() {
+    console.log('таймерлефт при запуске', timer.timeLeft)
 
     if (timer.isRunning) {
         return;
     }
 
-    console.log('раннинг до того как меняется в ф-ии:', timer.isRunning);
-
     timer.isRunning = true;
 
     updateButtonState('idle');
 
-    if (!timerState.hasBeenStarted) {
+    /* if (!timerState.hasBeenStarted) { */
 
-        if (timerState.hasCustomTime) {
+    if (timerState.hasCustomTime) {
 
-            timer.timeLeft = timerState.currentHours * 3600 + timerState.currentMinutes * 60 + timerState.currentSeconds;
+        timer.timeLeft = timerState.currentHours * 3600 + timerState.currentMinutes * 60 + timerState.currentSeconds;
 
-        } else {
-            /* === условие ? если истинно : если ложно */
-            timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
-        }
-
-        timerState.sessionDuration = timer.timeLeft;
-        console.log('время сессии = ' + timerState.sessionDuration);
-
-        timerState.hasBeenStarted = true;
-
-        updateTimerDisplay(timer.timeLeft);
-
+    } else {
+        /* === условие ? если истинно : если ложно */
+        timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
     }
+
+    timerState.sessionDuration = timer.timeLeft;
+
+    /* timerState.hasBeenStarted = true; */
+
+    updateTimerDisplay(timer.timeLeft);
 
     console.log('timeleft = ' + timer.timeLeft);
 
@@ -52,7 +48,10 @@ export function startTimer() {
             updateButtonState('reset');
             console.log("Таймер завершён!");
             timer.isRunning = false;
+            console.log(timerState.currentMode);
+            console.log(timer.timeLeft);
             return;
+
         }
         timer.timeLeft--;
         updateTimerDisplay(timer.timeLeft);
@@ -81,12 +80,11 @@ export function resetTimer() {
     clearInterval(timer.intervalId);
 
     timer.isRunning = false;
-    timerState.hasBeenStarted = false;
+    /* timerState.hasBeenStarted = false; */
 
     timer.timeLeft = timerState.currentMode === "work" ? timerState.workTime : timerState.breakTime;
 
     /* formatTime(); */
     updateButtonState('reset');
-
-    console.log('timeleft = ' + timer.timeLeft);
+    updateTimerDisplay(timer.timeLeft)
 }
